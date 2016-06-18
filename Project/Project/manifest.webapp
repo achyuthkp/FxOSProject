@@ -1,0 +1,12 @@
+{
+  "name": "Mobile Recharge Plan Recommender",
+  "description": "Choose your best plan based on your usage",
+  "launch_path": "/index.html",
+  "icons": {
+    "60": "/logo/logo60.png",
+    "64": "/logo/logo64.png",
+    "128": "/logo/logo128.png"
+  },
+  
+  "default_locale": "en"
+}

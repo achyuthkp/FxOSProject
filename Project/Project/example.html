@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.4/jquery.mobile-1.4.4.min.css">
+</link>
+<script src='https://cdn.firebase.com/js/client/2.0.4/firebase.js'></script>
+<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.4.4/jquery.mobile-1.4.4.min.js"></script>
+</head>
+<body>
+<h1 align="center">App Rating</h1>
+<div>
+<form><br>
+<input type="radio" name="rate" value="1"><label>1 Star Rating</label><br>
+<input type="radio" name="rate" value="2"><label>2 Star Rating</label><br>
+<input type="radio" name="rate" value="3"><label>3 Star Rating</label><br>
+<input type="radio" name="rate" value="4"><label>4 Star Rating</label><br>
+<input type="radio" name="rate" value="5"><label>5 Star Rating</label><br>
+<a class="ui-btn" href= "#" onclick="rating()">Submit</a>
+</form>
+</div>
+<script>
+var ref = new Firebase("https://app-rating.firebaseio.com/");
+
+// function rating()
+// {
+// 	var rate = document.querySelector('input[name="rate"]:checked').value;
+//   var id = new Date().getTime()/1000|0;
+//   ref.push({id: id, rate: rate});
+//   alert("Your Rating has been updated! Thank you for using our Application");
+// }
+</script>
+</body>
+</html>

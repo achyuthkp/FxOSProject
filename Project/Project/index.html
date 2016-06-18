@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.4/jquery.mobile-1.4.4.min.css">
+</link>
+<script src='https://cdn.firebase.com/js/client/2.0.4/firebase.js'></script>
+<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.4.4/jquery.mobile-1.4.4.min.js"></script>
+</head>
+<body>
+<div data-role="page" id="begin">
+  <div data-role="header">
+  <h1>Choose your Provider</h1>
+  </div>
+
+  <div data-role="main" class="ui-content">
+    <a href="#finish" class="ui-btn">Airtel</a>
+	<a href="#finish" class="ui-btn">Vodafone</a>
+    <a href="#finish" class="ui-btn">BSNL</a>
+	<a href="#finish" class="ui-btn">Idea</a>
+  </div>
+</div>
+
+<div data-role="page" id="finish">
+  <div data-role="header">
+    <h1>Settings</h1>
+  </div>
+
+  <div data-role="main" class="ui-content">
+  <a class="ui-btn" href="#finish3">Enter Usage Information</a>
+  <a href="#finish4" class="ui-btn">Available Plans</a>
+  <a href="#finish5" class="ui-btn">Display Best plans<br/><small><i>based on previous usage</i></small></a>
+  <a href="#finish6" class="ui-btn">Display Previous Usage - information</a>
+  <a class="ui-btn" onclick = "move()">Rate this App</a>
+  </div>
+  <div data-role="footer">
+    <center> <a href="#begin" class="ui-btn">Back</a> </center>
+  </div>
+</div>
+<div data-role="page" id="finish1">
+<div data-role="header">
+    <h1>App Rating</h1>
+  </div>
+
+  <div data-role="main" class="ui-content">
+  <center>   <div id="example-2" style="padding-left:562px;"></div> <br />
+    Your Rating: <span id="example-rating-2">not set</span>
+    </center>
+  </div>
+  <div data-role="footer">
+    <center> <a href="#finish" class="ui-btn">Back</a> </center>
+  </div>
+</div>
+ <div data-role="page" id="finish3">
+	<div data-role="header">
+		<h1>Enter your Usage - Information</h1>
+
+	</div>
+	<div data-role="main" class="ui-content">
+    <form >
+      <h1 align="center">Enter data for 30 days - Time Period</h1>
+
+      <p>
+        <label for="SMS">Enter no. of SMS sent in given time period:</label>
+        <input type="number" name="SMS" id="SMS" placeholder="SMS" required>
+
+      </p>
+      <p>
+        <label for="Calls">Enter no. of calls in given time period:</label>
+        <input type="number" name="Calls" id="Calls" placeholder="Calls" required>
+      </p>
+      <p>
+        <label for="Data">Enter data usage in given time period:</label>
+        <input type="number" name="Data" id="Data" placeholder="Data" required>
+      </p>
+
+      <br/>
+      <a class="ui-btn" href= "#finish6" onclick="userInput()">Add</a>
+      <button class="danger" type="reset" id="cancel">Reset</button>
+    </form>
+
+    </ul>
+		</div>
+	<div data-role="footer">
+    <center> <a href="#finish" class="ui-btn">Back</a> </center>
+  </div>
+</div>
+<div data-role="page" id="finish5">
+  <div data-role="header">
+    <h1>Best plans</h1>
+  </div>
+  <div data-role="main" class="ui-content">
+    <div id="results">
+    </div>
+  </div>
+  <div data-role="footer">
+    <center> <a href="#finish" class="ui-btn">Back</a> </center>
+  </div>
+</div>
+
+<div data-role="page" id="finish4">
+  <div data-role="header">
+    <h1>All Available Plans</h1>
+  </div>
+  <div data-role="main" class="ui-content">
+    <a onclick="disp()"></a>
+    <div id="display"></div>
+    </div>
+   <div data-role="footer">
+    <center> <a href="#finish" class="ui-btn">Back</a> </center>
+  </div>
+</div>
+<div data-role="page" id="finish6">
+  <div data-role="header">
+    <h1>Previous Usage - information</h1>
+  </div>
+  <div data-role="main" class="ui-content">
+    <div id="print">
+     
+   </div>
+    </div>
+   <div data-role="footer">
+<center><pre>Reload the page to see the latest usage information</pre><button onclick="moiFunction()">Reload page</button></center>
+  <center>  <a href="#finish5" class="ui-btn">Display Best plans</a> </center>
+  
+    <center> <a href="#finish" class="ui-btn">Back</a> </center>
+  </div>
+</div>
+  <script src="js/planpicker.js"></script>
+  <script src="js/plan.js"></script>
+  <script>
+  var myDataRef = new Firebase("https://userarray.firebaseio.com/");
+ var userArr = JSON.parse(localStorage.getItem('userArray') || "[]");
+ var results = findBestNPlans(plans, userArr[userArr.length-1] , 3);
+//   var ref = new Firebase("https://torrid-heat-2360.firebaseio.com/");
+
+// function disp() { ref.orderByChild("cost").on("child_added", function(snapshot) {
+//   console.log(snapshot.key() + " has " + snapshot.val().sms + " SMS " + snapshot.val().calls + "Calls" + snapshot.val().data + "Data" + snapshot.val().cost);
+// });
+// }
+function move()
+{ window.location.assign("example.html"); }
+function moiFunction() {
+    location.reload();
+}   
+    function userInput() 
+    {
+      var sms = $("#SMS").val();
+      var calls = $("#Calls").val();
+      var data = $("#Data").val();
+      userArr.push({
+        sms: $("#SMS").val(),
+        call: $("#Calls").val(),
+        data: $("#Data").val(),
+      });
+      myDataRef.push({sms: sms, calls: calls, data: data});
+      localStorage.setItem('userArray', JSON.stringify(userArr));
+      console.log(userArr);
+    }
+       
+
+$('#print').empty().append(
+      userArr.map(function (it) {
+        return $('<div>').append(
+              $('<div>').html('<br/><b>Your Previous Usage:</b><br/>SMS: ' + it.sms),
+          $('<div>').html('Call: ' + it.call),
+          $('<div>').html('Data: ' + it.data)
+        )
+})
+  );
+$('#display').empty().append(
+      plans.map(function (it) {
+        return $('<div>').append(
+              $('<div>').html('<br/><b>Plan:</b><br/>SMS: ' + it.sms),
+          $('<div>').html('Call: ' + it.call),
+          $('<div>').html('Data: ' + it.data),
+          $('<div>').html('Cost: ' + it.cost),
+          $('<div>').html('<button onclick="func1()">Select this Plan</button>')
+        )
+})
+    );
+
+    $('#results').empty().append(
+      results.map(function (it) {
+        return $('<div>').append(
+          $('<div>').html('<br/><b>Optimal Plan:</b><br/>SMS: ' + it.sms),
+          $('<div>').html('Call: ' + it.call),
+          $('<div>').html('Data: ' + it.data),
+          $('<div>').html('Cost: ' + it.cost),
+          $('<div>').html('<button onclick="func()">Select this Plan</button>')
+        )
+      })
+    );
+    function func(){
+      
+      alert("Thank you for choosing this plan!");
+    }
+    function func1(){
+      alert("You can also choose from the best plans for better results");
+    }
+   function myFunction() {
+   var x = document.getElementById("days").value;
+   document.getElementById("demo").innerHTML = x;
+}
+</script>
+</body>
+</html>

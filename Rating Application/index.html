@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>App Rating Result</title>
+<meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.4/jquery.mobile-1.4.4.min.css">
+</link>
+<script src='https://cdn.firebase.com/js/client/2.0.4/firebase.js'></script>
+<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.4.4/jquery.mobile-1.4.4.min.js"></script>
+</head>
+<body>
+<div data-role="page" id="begin">
+  <div data-role="header">
+  <h1 align="center">Application Rating</h1>
+  </div>
+  <div data-role="main" class="ui-content">
+<div id="demo">
+  </div></div>
+</div>
+<script>
+var ref = new Firebase("https://app-rating.firebaseio.com/");
+ref.on("child_added", function(snapshot) {
+  var newPost = snapshot.val();
+      $('#demo').append(
+              $('<div>').html("<b>UserID:</b> " + newPost.id + "<br>has rated the Application with " + newPost.rate + " points<br><br>"));
+});
+</script>    
+</body>
+</html>
